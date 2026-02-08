@@ -1,0 +1,31 @@
+# DinoRun2D - Cursor 규칙
+
+이 프로젝트는 Chrome 공룡 달리기 스타일의 2D 러닝 게임(Unity)입니다. 코드 및 에셋 작업 시 아래 규칙을 따르세요.
+
+## 프로젝트 환경
+- Unity 2022.3.62f3 (LTS), 2D Template
+- C# .NET Standard 2.1
+- 해상도: 1920x1080
+
+## 폴더 구조
+- `Assets/01.Scenes/` — 씬 파일 (GameScene 등)
+- `Assets/02.Scripts/` — C# 스크립트
+- `Assets/03.Images/` — 2D 스프라이트/이미지 (공룡, 선인장, 땅, 구름 등)
+- `Assets/04.Sounds/` — 사운드, BGM
+- `Assets/05.Animations/` — 애니메이션 클립 & 컨트롤러
+- `Assets/UI Toolkit/` — UI Toolkit (PanelSettings, 테마 등)
+
+## C# 코딩 컨벤션
+- 네이밍: PascalCase(클래스/메서드/프로퍼티), camelCase(지역변수/파라미터), _camelCase(private 필드)
+- MonoBehaviour 메서드 순서: Awake → OnEnable → Start → Update → FixedUpdate → OnDisable → OnDestroy
+- 직렬화: `[SerializeField] private` 사용, public 필드 지양
+- 주석: 한국어 사용 가능
+- 네임스페이스: `DinoRun2D`
+
+## 금지/주의
+- `.meta` 파일은 수정하지 말 것 (Unity 자동 생성)
+- 씬 파일(`.unity`)은 YAML이므로 머지 시 충돌에 유의
+- `Library/`, `Logs/`, `UserSettings/`는 버전 관리 제외
+
+## 응답
+- 사용자와 소통할 때는 한국어로 응답할 것.
