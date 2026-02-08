@@ -62,5 +62,17 @@ namespace DinoRun2D
             // 바닥 상태에 따라 애니메이션 전환 (달리기 ↔ 점프)
             anim.SetBool(IsGroundHash, isGrounded);
         }
+
+        /// <summary>
+        /// Scene 뷰에서 바닥 감지 범위를 빨간 원으로 표시하여 디버깅을 돕는다.
+        /// (게임 실행에는 영향 없음, Editor 전용)
+        /// </summary>
+        void OnDrawGizmos() {
+            // groundCheckPoint가 설정되지 않은 경우 에러 방지
+            if (groundCheckPoint == null) return;
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(groundCheckPoint.position, groundCheckRadius);
+        }
     }
 }
