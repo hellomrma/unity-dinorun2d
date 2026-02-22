@@ -36,12 +36,42 @@ namespace DinoRun2D
 
         /// <summary>애니메이터 파라미터 해시 캐싱 (문자열 비교보다 빠르고 오타 방지)</summary>
         private static readonly int IsGroundHash = Animator.StringToHash("isGround");
+        private static readonly int IsDownHash = Animator.StringToHash("isDown");
+
+        private Vector2 savedOffset;
+        private Vector2 savedSize;
+        private BoxCollider2D boxCollider2D;
+
+        void SaveColliderSettings()
+        {
+            savedOffset = boxCollider2D.offset;
+            savedSize = boxCollider2D.size;
+        }
+
+        void LoadColliderSettings()
+        {
+            boxCollider2D.size = savedSize;
+            boxCollider2D.offset = savedOffset;
+        }
+
+        void SetDownArrowDown() {
+            anim.SetBool(IsDownHash, true);
+            boxCollider2D.size = new Vector2(1.66f, 0.77f);
+            boxCollider2D.offset = new Vector2(0f, -0.25f);
+        }
+
+        void SetDownArrowUp() {
+            anim.SetBool(IsDownHash, false);
+            LoadColliderSettings();
+        }
 
         void Start()
         {
             // 이 오브젝트에 붙어있는 Rigidbody2D, Animator 컴포넌트를 가져온다
             rb = GetComponent<Rigidbody2D>();
             anim = GetComponent<Animator>();
+            boxCollider2D = GetComponent<BoxCollider2D>();
+            SaveColliderSettings();
 
             // 게임 시작 시 바닥에 서 있는 상태로 초기화
             anim.SetBool(IsGroundHash, true);
@@ -57,6 +87,14 @@ namespace DinoRun2D
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
                 // 수평 속도는 유지하고, 수직 속도만 jumpForce로 설정하여 위로 튀어오른다
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+
+            // 아래 방향키를 누르고 있을때만 숙이기 애니메이션 실행. 키를 땠을때는 다시 달리기 애니메이션 실행.
+            if (Input.GetKey(KeyCode.DownArrow) && isGrounded) {
+                SetDownArrowDown();
+            }
+            else if (Input.GetKeyUp(KeyCode.DownArrow) && isGrounded) {
+                SetDownArrowUp();
             }
 
             // 바닥 상태에 따라 애니메이션 전환 (달리기 ↔ 점프)
