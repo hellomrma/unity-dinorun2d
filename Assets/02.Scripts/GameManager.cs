@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] obstacles;
 
     public float spawnDelay; // 시간 간격
-    public float spawnTimer; // 타이머
+    private float spawnTimer; // 타이머
     public bool isSpawning; // 스폰을 위한 변수
     private int spawnTracker; // 어떤 장애물을 스폰할지 (0: 선인장1, 1: 선인장2, 2: 선인장3, 3: 선인장4, 4: 새)
 
