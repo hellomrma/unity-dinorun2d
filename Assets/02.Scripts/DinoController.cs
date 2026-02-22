@@ -101,6 +101,10 @@ namespace DinoRun2D
             anim.SetBool(IsGroundHash, isGrounded);
         }
 
+        private void OnTriggerEnter2D(Collider2D collision) {
+            Debug.Log("충돌 감지: " + collision.name);
+        }
+
         /// <summary>
         /// Scene 뷰에서 바닥 감지 범위를 빨간 원으로 표시하여 디버깅을 돕는다.
         /// (게임 실행에는 영향 없음, Editor 전용)
