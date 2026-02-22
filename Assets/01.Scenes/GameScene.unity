@@ -262,7 +262,6 @@ MonoBehaviour:
   - {fileID: 62245334022503716, guid: 110424cab649e4a358218ac4c65ef6a4, type: 3}
   - {fileID: 6295591308534631603, guid: fb7a2ba871fd746bc9f36571ee307cbc, type: 3}
   spawnDelay: 2
-  spawnTimer: 0
   isSpawning: 1
 --- !u!4 &378683405
 Transform:
@@ -842,7 +841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9067deb28b4c3488dbfec2cb0785fc78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 15
+  jumpForce: 17
   isGrounded: 1
   isDown: 0
   groundCheckPoint: {fileID: 1283973724}

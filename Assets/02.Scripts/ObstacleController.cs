@@ -16,4 +16,10 @@ public class ObstacleController : MonoBehaviour
     {
         rb.velocity = new Vector2(moveSpeedX, 0);
     }
+
+    private void OnBecameInvisible() {
+        Destroy(gameObject);
+    }
+
+    // OnBecameVisible 도 있음.
 }

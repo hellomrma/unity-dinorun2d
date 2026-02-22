@@ -102,7 +102,12 @@ namespace DinoRun2D
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            Debug.Log("충돌 감지: " + collision.name);
+            if (collision.gameObject.CompareTag("Obstacle")) {
+                Debug.Log("장애물 충돌");
+            }
+            else if (collision.gameObject.CompareTag("Point")) {
+                Debug.Log("포인트 획득");
+            }
         }
 
         /// <summary>
