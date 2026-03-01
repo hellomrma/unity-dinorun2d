@@ -1,9 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+
+    // singleton 패턴을 사용하여 인스턴스를 하나만 생성하고 공유하는 방식.
+    public static GameManager instance;
 
     public Transform[] spawnPoints;
     public GameObject[] obstacles;
@@ -13,11 +18,28 @@ public class GameManager : MonoBehaviour
     public bool isSpawning; // 스폰을 위한 변수
     private int spawnTracker; // 어떤 장애물을 스폰할지 (0: 선인장1, 1: 선인장2, 2: 선인장3, 3: 선인장4, 4: 새)
 
+    public int mainScore; // 메인 점수
+    public TextMeshProUGUI mainScoreText; // 메인 점수 텍스트
+
+    // Awake 메서드는 게임 시작 시 최초 한 번 호출되며, 인스턴스를 초기화하는 데 사용됩니다.
+    void Awake() {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
+        } else {
+            instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
 
+    }
+
+    // ScoreUiUpdate 메서드는 점수를 업데이트하는 데 사용됩니다.
+    public void ScoreUiUpdate() {
+        mainScore++;
+        mainScoreText.text = "스코어 : " + mainScore.ToString();
     }
 
     // Update is called once per frame

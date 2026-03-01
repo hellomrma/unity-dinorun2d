@@ -19,6 +19,8 @@ Assets/
 ├── 04.Sounds/       # 사운드, BGM
 ├── 05.Animations/   # 애니메이션 클립 & 컨트롤러
 ├── 06.Prefabs/      # 프리팹 (장애물 등)
+├── 07.Font/         # 폰트 (DNFBitBitv2 TTF & TMP SDF Asset)
+├── TextMesh Pro/    # TMP 패키지 리소스
 └── UI Toolkit/      # UI Toolkit (PanelSettings, 테마 등)
 ```
 
@@ -26,8 +28,8 @@ Assets/
 
 | 파일 | 네임스페이스 | 역할 |
 |------|------------|------|
-| `DinoController.cs` | `DinoRun2D` | 공룡 점프·숙이기 조작, 바닥 감지, 충돌 처리 |
-| `GameManager.cs` | (없음) | 장애물 스폰 관리 (타이머, 랜덤 선택) |
+| `DinoController.cs` | `DinoRun2D` | 공룡 점프·숙이기 조작, 바닥 감지, 충돌·포인트 트리거 처리 |
+| `GameManager.cs` | (없음) | 싱글톤, 장애물 스폰 관리 (타이머, 랜덤 선택), 점수 UI 업데이트 (TMP) |
 | `ObstacleController.cs` | (없음) | 장애물 이동 및 화면 밖 자동 삭제 |
 | `Scroll.cs` | `DinoRun2D` | 배경 스크롤 (땅: 텍스처 오프셋, 구름: 오브젝트 이동) |
 
@@ -40,7 +42,8 @@ Assets/
 - 배경 스크롤 (땅 텍스처 오프셋, 구름 오브젝트 루프)
 - 장애물 랜덤 스폰 (선인장 4종 + 새, spawnPoints 기반)
 - 장애물 자동 이동 및 화면 밖 삭제 (OnBecameInvisible)
-- 충돌 감지 기반 게임 오버 / 점수 획득 트리거 (미완성)
+- 점수 획득 트리거 (OnTriggerEnter2D → ScoreUiUpdate, TextMeshPro UI 연동)
+- 게임 오버 트리거 (충돌 감지, Debug.Log 출력 — UI 처리 미완성)
 
 ## 코딩 컨벤션
 
@@ -50,7 +53,7 @@ Assets/
 - **주석**: 한국어 사용 가능
 - **네임스페이스**: `DinoRun2D`
 
-> ⚠️ `GameManager.cs`와 `ObstacleController.cs`는 현재 네임스페이스 및 `[SerializeField] private` 컨벤션 미적용 상태
+> ⚠️ `GameManager.cs`와 `ObstacleController.cs`는 현재 네임스페이스 및 `[SerializeField] private` 컨벤션 미적용 상태 (public 필드 사용 중)
 
 ## 빌드
 

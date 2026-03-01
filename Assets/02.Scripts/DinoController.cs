@@ -106,7 +106,7 @@ namespace DinoRun2D
                 Debug.Log("게임 오버");
             }
             else if (collision.gameObject.CompareTag("Point")) {
-                Debug.Log("포인트 획득");
+                GameManager.instance.ScoreUiUpdate(); // 점수 업데이트
             }
         }
 
