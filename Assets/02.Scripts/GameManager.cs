@@ -83,6 +83,20 @@ public class GameManager : MonoBehaviour
     /// isSpawning이 true일 때 타이머를 증가시키고,
     /// spawnDelay에 도달하면 SpawnObstacle()을 호출해 장애물을 생성한다.
     /// </summary>
+
+    // 과제
+    // 장애물 1~3초 사이에서 랜덤하게 나오기
+    // PLAY 시, GAMEOVER 시 BGM 나오면 좋겠고
+    // Item을 먹으면 장애물에 닿아도 한번 살 수 있음 (쉴드)
+
+    spawnDelay = Random.Range(1f, 3f);
+    if (spawnDelay < 1f) {
+        spawnDelay = 1f;
+    }
+    if (spawnDelay > 3f) {
+        spawnDelay = 3f;
+    }
+
     void Update()
     {
         if (isSpawning) {
