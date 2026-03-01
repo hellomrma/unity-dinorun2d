@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace DinoRun2D
 {
@@ -87,6 +88,7 @@ namespace DinoRun2D
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
                 // 수평 속도는 유지하고, 수직 속도만 jumpForce로 설정하여 위로 튀어오른다
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                GetComponent<AudioSource>().Play();
             }
 
             // 아래 방향키를 누르고 있을때만 숙이기 애니메이션 실행. 키를 땠을때는 다시 달리기 애니메이션 실행.
@@ -101,12 +103,18 @@ namespace DinoRun2D
             anim.SetBool(IsGroundHash, isGrounded);
         }
 
+        /// <summary>
+        /// [Unity 내장] 이 오브젝트의 Collider와 다른 Trigger Collider가 겹치기 시작할 때 호출된다.
+        /// - "Obstacle" 태그: 장애물에 닿은 경우 → GameManager.GameOver()로 게임을 종료한다.
+        /// - "Point" 태그: 점수 획득 트리거를 통과한 경우 → GameManager.ScoreUiUpdate()로 점수를 올린다.
+        /// </summary>
         private void OnTriggerEnter2D(Collider2D collision) {
             if (collision.gameObject.CompareTag("Obstacle")) {
-                Debug.Log("게임 오버");
+                anim.SetTrigger("isDie");
+                GameManager.instance.GameOver();
             }
             else if (collision.gameObject.CompareTag("Point")) {
-                GameManager.instance.ScoreUiUpdate(); // 점수 업데이트
+                GameManager.instance.ScoreUiUpdate();
             }
         }
 
