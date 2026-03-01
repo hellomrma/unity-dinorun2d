@@ -51,9 +51,13 @@ public class GameManager : MonoBehaviour
     /// <summary>게임 오버 패널에 표시되는 이번 게임 최종 점수 TMP 텍스트</summary>
     public TextMeshProUGUI endScoreText;
 
+    /// <summary>게임 오버 시 재생할 효과음 클립</summary>
     public AudioClip explosionSound;
+
+    /// <summary>점수 획득(코인 픽업) 시 재생할 효과음 클립</summary>
     public AudioClip pickupCoinSound;
 
+    /// <summary>효과음 재생에 사용하는 AudioSource 컴포넌트 (Start에서 자동 취득)</summary>
     public AudioSource SE;
 
     /// <summary>
@@ -71,32 +75,22 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// [Unity 내장] 첫 프레임 직전에 한 번 호출된다.
-    /// 현재는 초기화 로직 없음 (추후 게임 시작 처리 추가 예정).
+    /// 이 오브젝트에 붙어있는 AudioSource를 SE에 캐싱한다.
     /// </summary>
     void Start()
     {
         SE = GetComponent<AudioSource>();
     }
 
+    // TODO (과제)
+    // - PLAY 시 / GAMEOVER 시 BGM 재생
+    // - Item을 먹으면 장애물에 한 번 무적 (쉴드)
+
     /// <summary>
     /// [Unity 내장] 매 프레임 호출된다.
     /// isSpawning이 true일 때 타이머를 증가시키고,
     /// spawnDelay에 도달하면 SpawnObstacle()을 호출해 장애물을 생성한다.
     /// </summary>
-
-    // 과제
-    // 장애물 1~3초 사이에서 랜덤하게 나오기
-    // PLAY 시, GAMEOVER 시 BGM 나오면 좋겠고
-    // Item을 먹으면 장애물에 닿아도 한번 살 수 있음 (쉴드)
-
-    spawnDelay = Random.Range(1f, 3f);
-    if (spawnDelay < 1f) {
-        spawnDelay = 1f;
-    }
-    if (spawnDelay > 3f) {
-        spawnDelay = 3f;
-    }
-
     void Update()
     {
         if (isSpawning) {
@@ -131,9 +125,15 @@ public class GameManager : MonoBehaviour
         gameOverPanel.SetActive(true);
     }
 
+    /// <summary>
+    /// 게임을 처음부터 다시 시작하는 사용자 정의 메서드.
+    /// 게임 오버 패널의 재시작 버튼에서 호출된다.
+    /// SceneManager.LoadScene: 씬 이름으로 씬을 다시 로드한다.
+    /// Time.timeScale을 1로 복구해 게임 속도를 정상으로 되돌린다.
+    /// </summary>
     public void GameRestart() {
-        SceneManager.LoadScene("GameScene");
         Time.timeScale = 1;
+        SceneManager.LoadScene("GameScene");
     }
 
     /// <summary>
@@ -150,11 +150,12 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 랜덤으로 장애물 하나를 선택해 지정된 spawnPoint에 생성하는 사용자 정의 메서드.
     /// Update에서 spawnDelay 간격마다 호출된다.
+    /// 장애물 생성 후 다음 스폰 간격을 1~3초 사이에서 다시 랜덤으로 결정한다.
     /// Instantiate(프리팹, 위치, 회전): 프리팹의 복사본을 씬에 생성한다.
     /// Quaternion.identity: 회전 없이 기본 방향으로 생성한다.
     /// </summary>
     void SpawnObstacle() {
-        // Random.Range(min, max): min 이상 max 미만의 정수를 반환한다
+        // Random.Range(min, max): 정수형은 max 미만, 실수형은 max 이하 값을 반환한다
         spawnTracker = Random.Range(0, obstacles.Length);
 
         switch (spawnTracker) {
@@ -180,5 +181,8 @@ public class GameManager : MonoBehaviour
         if (spawnTracker >= obstacles.Length) {
             spawnTracker = 0;
         }
+
+        // 장애물 생성마다 다음 스폰 간격을 1~3초 사이에서 랜덤으로 재설정한다
+        spawnDelay = Random.Range(1f, 3f);
     }
 }
